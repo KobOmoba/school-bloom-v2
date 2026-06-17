@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>EduBloom — Africa Expansion Pitch Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --green:#00C853;--dark:#0A0F1E;--mid:#111827;--card:#1A2235;
+    --accent:#00E676;--gold:#FFD600;--text:#E8EDF5;--muted:#7B8EAD;
+    --red:#FF5252;--blue:#448AFF;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);line-height:1.6;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,30,0.95);
+      backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.07);
+      padding:12px 32px;display:flex;align-items:center;justify-content:space-between;}
+  .nav-logo{font-size:20px;font-weight:900;color:var(--accent);}
+  .nav-logo span{color:var(--text);}
+  .nav-links{display:flex;gap:24px;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;
+               transition:color .2s;}
+  .nav-links a:hover{color:var(--accent);}
+
+  /* SLIDES */
+  .slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+         padding:100px 8% 60px;position:relative;overflow:hidden;}
+  .slide-num{position:absolute;top:80px;right:8%;font-size:12px;color:var(--muted);
+             font-weight:600;letter-spacing:2px;}
+
+  /* HERO */
+  .hero{background:radial-gradient(ellipse at 20% 50%,rgba(0,230,118,0.08) 0%,transparent 60%),
+        radial-gradient(ellipse at 80% 20%,rgba(68,138,255,0.06) 0%,transparent 50%),var(--dark);
+        text-align:center;align-items:center;}
+  .hero-badge{display:inline-block;background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);
+              color:var(--accent);font-size:12px;font-weight:700;letter-spacing:2px;
+              padding:6px 16px;border-radius:20px;margin-bottom:24px;text-transform:uppercase;}
+  .hero h1{font-size:clamp(42px,7vw,88px);font-weight:900;line-height:1.05;margin-bottom:20px;}
+  .hero h1 .green{color:var(--accent);}
+  .hero h1 .gold{color:var(--gold);}
+  .hero-sub{font-size:clamp(16px,2.5vw,22px);color:var(--muted);max-width:700px;margin:0 auto 40px;}
+  .hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:40px;}
+  .hstat{text-align:center;}
+  .hstat .num{font-size:36px;font-weight:900;color:var(--accent);}
+  .hstat .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+
+  /* SECTION HEADERS */
+  .slide-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+               color:var(--accent);margin-bottom:12px;}
+  h2{font-size:clamp(30px,4vw,52px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+  h2 .accent{color:var(--accent);}
+  h2 .gold{color:var(--gold);}
+  .lead{font-size:clamp(15px,2vw,19px);color:var(--muted);max-width:700px;margin-bottom:40px;}
+
+  /* CARDS */
+  .card-grid{display:grid;gap:16px;}
+  .card-grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+  .card-grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .card-grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .card{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:16px;
+        padding:24px;transition:transform .2s,border-color .2s;}
+  .card:hover{transform:translateY(-3px);border-color:rgba(0,230,118,0.3);}
+  .card .icon{font-size:32px;margin-bottom:12px;}
+  .card h3{font-size:18px;font-weight:700;margin-bottom:8px;}
+  .card p{font-size:14px;color:var(--muted);}
+  .card .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;
+             border-radius:20px;margin-bottom:8px;}
+  .tag-green{background:rgba(0,200,83,0.15);color:var(--green);}
+  .tag-blue{background:rgba(68,138,255,0.15);color:var(--blue);}
+  .tag-gold{background:rgba(255,214,0,0.15);color:var(--gold);}
+  .tag-red{background:rgba(255,82,82,0.15);color:var(--red);}
+
+  /* PROBLEM */
+  .problem{background:linear-gradient(135deg,#0A0F1E 0%,#0d1528 100%);}
+  .problem-stat{display:flex;align-items:center;gap:16px;padding:20px;
+                background:var(--card);border-radius:12px;border-left:4px solid var(--red);}
+  .problem-stat .big{font-size:40px;font-weight:900;color:var(--red);min-width:80px;}
+  .problem-stat p{color:var(--muted);font-size:15px;}
+
+  /* SOLUTION */
+  .solution-row{display:flex;align-items:center;gap:12px;padding:16px;
+                background:var(--card);border-radius:12px;margin-bottom:10px;}
+  .solution-row .check{color:var(--accent);font-size:20px;min-width:28px;}
+  .solution-row p{font-size:15px;}
+  .solution-row p strong{color:var(--text);}
+
+  /* AARI */
+  .aari{background:radial-gradient(ellipse at 50% 0%,rgba(68,138,255,0.08) 0%,transparent 60%),var(--dark);}
+  .aari-stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;}
+  .aari-stage{padding:28px;border-right:1px solid rgba(255,255,255,0.07);position:relative;}
+  .aari-stage:last-child{border-right:none;}
+  .aari-stage .ver{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);
+                   margin-bottom:8px;text-transform:uppercase;}
+  .aari-stage h3{font-size:20px;font-weight:800;margin-bottom:4px;}
+  .aari-stage .when{font-size:12px;color:var(--muted);margin-bottom:12px;}
+  .aari-stage ul{list-style:none;padding:0;}
+  .aari-stage ul li{font-size:13px;color:var(--muted);padding:4px 0;padding-left:16px;
+                    position:relative;}
+  .aari-stage ul li::before{content:"›";position:absolute;left:0;color:var(--blue);}
+  .aari-container{background:var(--card);border:1px solid rgba(68,138,255,0.2);
+                  border-radius:20px;overflow:hidden;}
+
+  /* ROADMAP */
+  .roadmap{background:var(--dark);}
+  .stage-row{display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:start;
+             margin-bottom:20px;padding:20px;background:var(--card);border-radius:16px;
+             border-left:4px solid transparent;transition:border-color .2s;}
+  .stage-row:hover{border-left-color:var(--accent);}
+  .stage-badge{text-align:center;}
+  .stage-badge .s-num{font-size:28px;font-weight:900;color:var(--accent);}
+  .stage-badge .s-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .stage-badge .s-time{font-size:12px;color:var(--gold);font-weight:600;margin-top:4px;}
+  .stage-content h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+  .stage-content .s-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+  .stage-content .s-meta span{font-size:12px;color:var(--muted);}
+  .stage-content .s-meta span strong{color:var(--text);}
+  .stage-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+  .pill{font-size:11px;padding:3px 10px;border-radius:20px;
+        background:rgba(0,230,118,0.1);color:var(--accent);font-weight:600;}
+
+  /* METRICS */
+  .metrics-table{width:100%;border-collapse:collapse;margin-top:24px;}
+  .metrics-table th{text-align:left;padding:12px 16px;font-size:12px;font-weight:700;
+                    letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+                    border-bottom:1px solid rgba(255,255,255,0.07);}
+  .metrics-table td{padding:14px 16px;font-size:15px;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .metrics-table tr:hover td{background:rgba(255,255,255,0.02);}
+  .metrics-table td:first-child{color:var(--muted);font-size:13px;}
+  .metrics-table .highlight{color:var(--accent);font-weight:700;}
+  .metrics-table .gold{color:var(--gold);font-weight:700;}
+
+  /* MOAT */
+  .moat-item{display:flex;gap:20px;padding:24px;background:var(--card);
+             border-radius:16px;margin-bottom:12px;}
+  .moat-item .m-num{font-size:40px;font-weight:900;color:rgba(0,230,118,0.2);min-width:50px;}
+  .moat-item h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+  .moat-item p{font-size:14px;color:var(--muted);}
+
+  /* ASK */
+  .ask{background:radial-gradient(ellipse at 50% 100%,rgba(0,230,118,0.1) 0%,transparent 60%),var(--dark);
+       text-align:center;align-items:center;}
+  .ask-box{background:var(--card);border:1px solid rgba(0,230,118,0.3);border-radius:24px;
+           padding:48px;max-width:800px;margin:0 auto;}
+  .ask-amount{font-size:clamp(48px,8vw,96px);font-weight:900;color:var(--accent);line-height:1;}
+  .ask-amount small{font-size:24px;color:var(--muted);}
+  .use-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0;text-align:left;}
+  .use-item{padding:16px;background:rgba(255,255,255,0.04);border-radius:12px;}
+  .use-item .u-pct{font-size:24px;font-weight:900;color:var(--gold);}
+  .use-item .u-lbl{font-size:13px;color:var(--muted);margin-top:2px;}
+  .return-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:24px;}
+  .ret-stat .r-num{font-size:32px;font-weight:900;color:var(--accent);}
+  .ret-stat .r-lbl{font-size:12px;color:var(--muted);}
+
+  /* FOOTER SLIDE */
+  .closing{background:var(--dark);text-align:center;align-items:center;}
+  .closing h2{font-size:clamp(28px,5vw,64px);font-weight:900;line-height:1.1;max-width:800px;}
+  .closing .tagline{font-size:18px;color:var(--muted);margin:20px 0 40px;font-style:italic;}
+  .contact-row{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:32px;}
+  .contact-item{text-align:center;}
+  .contact-item .c-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+  .contact-item .c-val{font-size:15px;font-weight:600;color:var(--accent);margin-top:4px;}
+
+  /* DFI LOGOS */
+  .dfi-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:24px;}
+  .dfi-tag{padding:10px 20px;background:var(--card);border:1px solid rgba(255,255,255,0.1);
+           border-radius:8px;font-size:13px;font-weight:600;color:var(--muted);}
+
+  /* DIVIDER */
+  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,230,118,0.3),transparent);
+           margin:32px 0;}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    .slide{padding:80px 5% 48px;}
+    .aari-stages{grid-template-columns:1fr;}
+    .aari-stage{border-right:none;border-bottom:1px solid rgba(255,255,255,0.07);}
+    .stage-row{grid-template-columns:1fr;}
+    .use-grid{grid-template-columns:1fr;}
+    nav .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Edu<span>Bloom</span></div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#aari">Aari AI</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#ask">The Ask</a>
+  </div>
+</nav>
+
+<!-- SLIDE 1: HERO -->
+<section class="slide hero">
+  <div class="slide-num">01 / 10</div>
+  <div class="hero-badge">AariNAT Company Limited · Abeokuta, Nigeria</div>
+  <h1>The <span class="green">Commerce Layer</span><br>for <span class="gold">African Schools</span></h1>
+  <p class="hero-sub">EduBloom turns 30% fee leakage into recovered revenue — then turns every classroom into Africa's largest education dataset.</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="num">30%</div><div class="lbl">Avg Fee Leakage</div></div>
+    <div class="hstat"><div class="num">70K+</div><div class="lbl">Private Schools, Nigeria</div></div>
+    <div class="hstat"><div class="num">600K+</div><div class="lbl">Schools, Sub-Saharan Africa</div></div>
+    <div class="hstat"><div class="num">$0</div><div class="lbl">Infra Built for Them</div></div>
+  </div>
+</section>
+
+<!-- SLIDE 2: PROBLEM -->
+<section id="problem" class="slide problem">
+  <div class="slide-num">02 / 10</div>
+  <div class="slide-label">The Problem</div>
+  <h2>African schools are <span class="accent">bleeding money</span><br>with paper and prayer</h2>
+  <p class="lead">Nigeria alone has 70,000+ private schools. Every one of them manages fees in a ledger, sends reminders by hand, and has no idea how their students are really performing.</p>
+  <div class="card-grid cols-2" style="max-width:900px;">
+    <div class="problem-stat"><div class="big">30%</div><p>of termly fees never collected — principals don't know who owes what until it's too late</p></div>
+    <div class="problem-stat"><div class="big">0</div><p>school management platforms built for offline, low-bandwidth, budget-Android Africa</p></div>
+    <div class="problem-stat"><div class="big">₦0</div><p>AI or data infrastructure serving African classroom learning — Western models don't fit</p></div>
+    <div class="problem-stat"><div class="big">3</div><p>exercise books per student used to track fees, scores, and attendance — all lost or damaged</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 3: SOLUTION -->
+<section id="solution" class="slide">
+  <div class="slide-num">03 / 10</div>
+  <div class="slide-label">The Solution</div>
+  <h2>EduBloom v2 —<br><span class="accent">already built,</span> already working</h2>
+  <p class="lead">Three apps, one architecture, offline-first from day one. Not a prototype — a production suite in active development.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px;letter-spacing:1px;">🎓 SCHOOL BLOOM</div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>Fee collection</strong> + WhatsApp reminders</p></div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>OCR student import</strong> — photograph a class register</p></div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>Scores & grades</strong> with term analysis</p></div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>Attendance register</strong> + parent alerts 8:30am</p></div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>Exam Pass Guarantee</strong> with anti-gaming logic</p></div>
+      <div class="solution-row"><div class="check">✅</div><p><strong>Offline-first</strong> — works with zero internet</p></div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:12px;letter-spacing:1px;">👤 BLOOM AGENT</div>
+      <div class="solution-row"><div class="check" style="color:var(--blue);">✅</div><p><strong>Fee leakage audit</strong> — show schools their money</p></div>
+      <div class="solution-row"><div class="check" style="color:var(--blue);">✅</div><p><strong>Deal submission</strong> directly from the field</p></div>
+      <div class="solution-row"><div class="check" style="color:var(--blue);">✅</div><p><strong>Commission tracker</strong> — earned vs pending vs paid</p></div>
+      <div class="solution-row"><div class="check" style="color:var(--blue);">✅</div><p><strong>Agent leaderboard</strong> — gamified sales</p></div>
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px;margin-top:20px;letter-spacing:1px;">🎛️ BLOOM PORTAL</div>
+      <div class="solution-row"><div class="check" style="color:var(--gold);">✅</div><p><strong>Unified dashboard</strong> — all schools, all agents</p></div>
+      <div class="solution-row"><div class="check" style="color:var(--gold);">✅</div><p><strong>Deal pipeline</strong> + automated school activation</p></div>
+      <div class="solution-row"><div class="check" style="color:var(--gold);">✅</div><p><strong>Commission ledger</strong> + invoice generator</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: AARI -->
+<section id="aari" class="slide aari">
+  <div class="slide-num">04 / 10</div>
+  <div class="slide-label">Aari — The AI</div>
+  <h2>Not just an app.<br>Africa's first <span class="accent">education AI</span></h2>
+  <p class="lead">Every student interaction is a training signal. Every school that joins makes Aari smarter. The data moat compounds with every classroom.</p>
+  <div class="aari-container">
+    <div class="aari-stages">
+      <div class="aari-stage">
+        <div class="ver">Aari v1</div>
+        <h3>Embedded</h3>
+        <div class="when">Now · 0–50 schools</div>
+        <ul>
+          <li>AI OCR: photograph any register</li>
+          <li>WhatsApp automation</li>
+          <li>Fee leakage calculator</li>
+          <li>Score trend analysis</li>
+          <li>Safety alerts 8:30am & 9:30am</li>
+        </ul>
+      </div>
+      <div class="aari-stage">
+        <div class="ver">Aari v2</div>
+        <h3>Predictive</h3>
+        <div class="when">6–12 months · 50+ schools</div>
+        <ul>
+          <li>Predict student failures early</li>
+          <li>Fee defaulter pattern detection</li>
+          <li>Smart 3-day absence alerts</li>
+          <li>Agent performance coaching</li>
+          <li>Exam Guarantee auto-trigger</li>
+        </ul>
+      </div>
+      <div class="aari-stage">
+        <div class="ver">Aari v3</div>
+        <h3>Intelligence</h3>
+        <div class="when">12–24 months · 500+ schools</div>
+        <ul>
+          <li>Cross-school benchmarking</li>
+          <li>Subject mastery maps by LGA</li>
+          <li>African school credit score</li>
+          <li>Voice: Yoruba, Hausa, Igbo</li>
+          <li>French for West Africa</li>
+        </ul>
+      </div>
+      <div class="aari-stage" style="background:rgba(0,230,118,0.04);">
+        <div class="ver" style="color:var(--accent);">Aari Vision</div>
+        <h3 style="color:var(--accent);">The Vector Lake</h3>
+        <div class="when">Stage 2 · 2,000+ schools</div>
+        <ul>
+          <li>500M+ African classroom records</li>
+          <li>First AI trained on African data</li>
+          <li>Not adapted from Western models</li>
+          <li>Licensable to govts & NGOs</li>
+          <li>The education data standard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: ROADMAP -->
+<section id="roadmap" class="slide roadmap">
+  <div class="slide-num">05 / 10</div>
+  <div class="slide-label">Expansion Roadmap</div>
+  <h2>Abeokuta <span class="accent">→</span> Nigeria <span class="accent">→</span> West Africa <span class="gold">→</span> Continent</h2>
+  <p class="lead">Four stages, each building on the last. The data architecture is already migration-ready — no rewrite needed at any stage.</p>
+
+  <div class="stage-row">
+    <div class="stage-badge"><div class="s-num">0</div><div class="s-lbl">Stage</div><div class="s-time">NOW</div></div>
+    <div class="stage-content">
+      <h3>Proof of Concept — Ogun State</h3>
+      <div class="s-meta"><span><strong>Target:</strong> 20 schools</span><span><strong>Revenue:</strong> ₦300K/mo</span><span><strong>Stack:</strong> Firebase + PWA</span></div>
+      <p style="font-size:14px;color:var(--muted);">Product works perfectly. Agents earn real commission. CAC reactivation funded (₦250K milestone).</p>
+      <div class="stage-pills"><span class="pill">OCR import</span><span class="pill">WhatsApp alerts</span><span class="pill">Fee collection</span><span class="pill">Exam Guarantee</span></div>
+    </div>
+  </div>
+
+  <div class="stage-row">
+    <div class="stage-badge"><div class="s-num">1</div><div class="s-lbl">Stage</div><div class="s-time">6–12 mo</div></div>
+    <div class="stage-content">
+      <h3>State Rollout — SW Nigeria</h3>
+      <div class="s-meta"><span><strong>Target:</strong> 200 schools</span><span><strong>Revenue:</strong> ₦3M/mo</span><span><strong>States:</strong> Lagos, Ogun, Oyo, Osun, Ekiti</span></div>
+      <p style="font-size:14px;color:var(--muted);">Agent network scaling. BloomCollect launches — process school fees on-platform. Parent portal goes live.</p>
+      <div class="stage-pills"><span class="pill">BloomCollect</span><span class="pill">Parent portal</span><span class="pill">PDF report cards</span><span class="pill">SMS fallback</span><span class="pill">Supabase migration</span></div>
+    </div>
+  </div>
+
+  <div class="stage-row">
+    <div class="stage-badge"><div class="s-num">2</div><div class="s-lbl">Stage</div><div class="s-time">12–24 mo</div></div>
+    <div class="stage-content">
+      <h3>National — All 36 States</h3>
+      <div class="s-meta"><span><strong>Target:</strong> 2,000 schools</span><span><strong>Revenue:</strong> ₦30M/mo</span><span><strong>Agents:</strong> 500 (36 state managers)</span></div>
+      <p style="font-size:14px;color:var(--muted);">Native Android app with ML Kit OCR. Procurement aggregation. DFI engagement. Government pilot.</p>
+      <div class="stage-pills"><span class="pill">Android app</span><span class="pill">ML Kit OCR offline</span><span class="pill">Procurement</span><span class="pill">Aari v2</span><span class="pill">UBEC pilot</span></div>
+    </div>
+  </div>
+
+  <div class="stage-row">
+    <div class="stage-badge"><div class="s-num">3</div><div class="s-lbl">Stage</div><div class="s-time">24–36 mo</div></div>
+    <div class="stage-content">
+      <h3>West Africa — 5 Countries</h3>
+      <div class="s-meta"><span><strong>Target:</strong> 10,000 schools</span><span><strong>Revenue:</strong> ₦150M/mo</span><span><strong>Countries:</strong> Nigeria, Ghana, Côte d'Ivoire, Senegal, Benin</span></div>
+      <p style="font-size:14px;color:var(--muted);">French UI. Multi-currency. Cross-border benchmarking. AfDB/IFC data partnership reports.</p>
+      <div class="stage-pills"><span class="pill">French UI</span><span class="pill">Multi-currency</span><span class="pill">Aari v3</span><span class="pill">AfDB partnership</span><span class="pill">Data licensing</span></div>
+    </div>
+  </div>
+
+  <div class="stage-row" style="border-left-color:var(--gold);">
+    <div class="stage-badge"><div class="s-num" style="color:var(--gold);">4</div><div class="s-lbl">Stage</div><div class="s-time">36–60 mo</div></div>
+    <div class="stage-content">
+      <h3>Continental — Sub-Saharan + East Africa</h3>
+      <div class="s-meta"><span><strong>Target:</strong> 50,000 schools</span><span><strong>5M students in system</strong></span></div>
+      <p style="font-size:14px;color:var(--muted);">Kenya, Uganda, Tanzania, Ethiopia, South Africa. Swahili, Amharic. Africa's education data standard.</p>
+      <div class="stage-pills"><span class="pill" style="background:rgba(255,214,0,0.15);color:var(--gold);">Swahili</span><span class="pill" style="background:rgba(255,214,0,0.15);color:var(--gold);">East Africa</span><span class="pill" style="background:rgba(255,214,0,0.15);color:var(--gold);">AI licensing</span><span class="pill" style="background:rgba(255,214,0,0.15);color:var(--gold);">Education standard</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: METRICS -->
+<section id="metrics" class="slide">
+  <div class="slide-num">06 / 10</div>
+  <div class="slide-label">Traction & Projections</div>
+  <h2>The numbers <span class="accent">compound</span></h2>
+  <p class="lead">Conservative projections based on ₦30,000/school/term average. BloomCollect and Aari SaaS are additive on top.</p>
+  <table class="metrics-table">
+    <thead>
+      <tr><th>Metric</th><th>Stage 0 (Now)</th><th>Stage 1</th><th>Stage 2</th><th>Stage 3</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Schools</td><td>20</td><td>200</td><td class="highlight">2,000</td><td class="gold">10,000</td></tr>
+      <tr><td>Students in system</td><td>2,000</td><td>40,000</td><td class="highlight">600,000</td><td class="gold">5,000,000</td></tr>
+      <tr><td>Active agents</td><td>5</td><td>50</td><td class="highlight">500</td><td class="gold">2,000</td></tr>
+      <tr><td>Monthly revenue</td><td>₦300K</td><td>₦3M</td><td class="highlight">₦30M</td><td class="gold">₦150M</td></tr>
+      <tr><td>Aari training records</td><td>10K</td><td>500K</td><td class="highlight">20M</td><td class="gold">500M</td></tr>
+      <tr><td>BloomCollect volume</td><td>—</td><td>₦50M/term</td><td class="highlight">₦500M/term</td><td class="gold">₦5B/term</td></tr>
+    </tbody>
+  </table>
+  <div class="divider"></div>
+  <div class="card-grid cols-3">
+    <div class="card">
+      <div class="tag tag-green">Unit Economics</div>
+      <h3>₦90,000/school/year</h3>
+      <p>Average subscription (₦30K × 3 terms). Every new school pays back in Term 1.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-blue">BloomCollect</div>
+      <h3>1.5% transaction fee</h3>
+      <p>On every school fee processed. ₦500M volume = ₦7.5M/year. Scales automatically.</p>
+    </div>
+    <div class="card">
+      <div class="tag tag-gold">Exam Guarantee</div>
+      <h3>₦3,000/student/subject</h3>
+      <p>50 students × 4 subjects × ₦3K = ₦600K bonus per school per term. Pure margin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: THE MOAT -->
+<section class="slide" style="background:var(--mid);">
+  <div class="slide-num">07 / 10</div>
+  <div class="slide-label">Why We Win</div>
+  <h2>Four moats no one<br>can <span class="accent">buy or copy</span></h2>
+  <p class="lead">VC-funded EdTech from Lagos or Nairobi cannot replicate what EduBloom has built from Abeokuta.</p>
+  <div class="moat-item">
+    <div class="m-num">01</div>
+    <div><h3>Agent Relationships</h3><p>Principals trust the person who walked into their school. Our agents are embedded in communities across Ogun State and growing. This distribution takes years to build — you can't buy it with Series A money.</p></div>
+  </div>
+  <div class="moat-item">
+    <div class="m-num">02</div>
+    <div><h3>Offline-First Architecture</h3><p>Built for zero internet from day one. Works on a ₦30,000 Tecno phone with 2GB RAM. No competitor has done this — they all assumed urban Lagos connectivity that 80% of Nigerian schools don't have.</p></div>
+  </div>
+  <div class="moat-item">
+    <div class="m-num">03</div>
+    <div><h3>Data Depth — The Vector Lake</h3><p>17 Firestore collections per school. Every score, every payment, every attendance record, every learning session — timestamped, isolated, schema-stable. At 2,000 schools this becomes Africa's most valuable education dataset.</p></div>
+  </div>
+  <div class="moat-item">
+    <div class="m-num">04</div>
+    <div><h3>Aari — African AI, Not Adapted Western AI</h3><p>GPT was trained on the internet. The internet doesn't reflect Nigerian JSS2 maths. Aari will be the first AI trained exclusively on African classroom data — built school by school, term by term, from inside the classroom.</p></div>
+  </div>
+</section>
+
+<!-- SLIDE 8: ANDROID / TECH -->
+<section class="slide">
+  <div class="slide-num">08 / 10</div>
+  <div class="slide-label">Technology Path</div>
+  <h2>PWA today.<br><span class="accent">Android</span> at scale.<br><span class="gold">Edge AI</span> at continent.</h2>
+  <p class="lead">No rewrite at any stage. The data architecture migration path is already baked into v2 design principles.</p>
+  <div class="card-grid cols-4">
+    <div class="card"><div class="tag tag-green">Now</div><h3>Firebase + PWA</h3><p>GitHub Pages. Works offline. Runs on any Android browser. Zero infra cost.</p></div>
+    <div class="card"><div class="tag tag-blue">200 schools</div><h3>Supabase + Play Store</h3><p>Capacitor wraps PWA. On Google Play. Supabase replaces Firebase — same schema.</p></div>
+    <div class="card"><div class="tag tag-gold">2,000 schools</div><h3>Own Server + Android Native</h3><p>ML Kit OCR — fully offline. Face detection for attendance. Barcode for student IDs.</p></div>
+    <div class="card"><div class="tag tag-red">10,000+ schools</div><h3>Distributed + Edge AI</h3><p>Multi-region. Aari runs on-device. French, Swahili, Amharic. Africa's education OS.</p></div>
+  </div>
+  <div class="divider"></div>
+  <div style="background:var(--card);border-radius:16px;padding:24px;">
+    <div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:16px;text-transform:uppercase;">Why ML Kit Matters at Scale</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+      <div><div style="color:var(--accent);font-weight:700;margin-bottom:4px;">📷 Text Recognition</div><div style="font-size:13px;color:var(--muted);">Reads handwritten class registers offline — no API cost, no internet required</div></div>
+      <div><div style="color:var(--accent);font-weight:700;margin-bottom:4px;">👤 Face Detection</div><div style="font-size:13px;color:var(--muted);">Attendance without typing — teacher points camera at class</div></div>
+      <div><div style="color:var(--accent);font-weight:700;margin-bottom:4px;">📊 Barcode Scan</div><div style="font-size:13px;color:var(--muted);">Student ID cards, fee receipts — instant lookup</div></div>
+      <div><div style="color:var(--accent);font-weight:700;margin-bottom:4px;">📱 Android-First</div><div style="font-size:13px;color:var(--muted);">95% of Nigerian schools use Android. iOS when entering South Africa (Stage 4)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: THE ASK -->
+<section id="ask" class="slide ask">
+  <div class="slide-num">09 / 10</div>
+  <div class="ask-box">
+    <div class="slide-label" style="text-align:center;">Series A — Stage 2</div>
+    <div class="ask-amount">$500,000 <small>USD</small></div>
+    <p style="color:var(--muted);margin:12px 0 32px;font-size:16px;">To take EduBloom from 200 schools in SW Nigeria to 2,000 schools in all 36 states</p>
+    <div class="use-grid">
+      <div class="use-item"><div class="u-pct">40%</div><div class="u-lbl">Engineering team — 5 devs, Android app, BloomCollect</div></div>
+      <div class="use-item"><div class="u-pct">30%</div><div class="u-lbl">36 state managers + field agent expansion</div></div>
+      <div class="use-item"><div class="u-pct">20%</div><div class="u-lbl">Aari v2 — predictive analytics + data infrastructure</div></div>
+      <div class="use-item"><div class="u-pct">10%</div><div class="u-lbl">Ops, compliance, DFI engagement</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="return-row">
+      <div class="ret-stat"><div class="r-num">$2M</div><div class="r-lbl">ARR at Stage 2</div></div>
+      <div class="ret-stat"><div class="r-num">10,000</div><div class="r-lbl">Schools (Stage 3)</div></div>
+      <div class="ret-stat"><div class="r-num">5M</div><div class="r-lbl">Students in system</div></div>
+      <div class="ret-stat"><div class="r-num">500M</div><div class="r-lbl">Aari training records</div></div>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:13px;color:var(--muted);text-align:left;">
+      <div style="font-weight:700;color:var(--text);margin-bottom:12px;">DFI Alignment</div>
+      <div class="dfi-row">
+        <div class="dfi-tag">AfDB — Education for All</div>
+        <div class="dfi-tag">IFC — EdTech Africa</div>
+        <div class="dfi-tag">USAID — Equitable Learning</div>
+        <div class="dfi-tag">UK-Nigeria Tech Hub</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: CLOSING -->
+<section class="slide closing">
+  <div class="slide-num">10 / 10</div>
+  <div class="slide-label">AariNAT Company Limited</div>
+  <h2>What <span style="color:var(--accent);">Stripe</span> did for payments.<br>What <span style="color:var(--blue);">Twilio</span> did for comms.<br><span class="gold">AariNAT</span> does for African schools.</h2>
+  <p class="tagline">"Built with grit from Abeokuta, for every school that deserves clarity over its cash."</p>
+  <div class="card-grid cols-3" style="max-width:700px;margin-bottom:40px;">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">🎓</div>
+      <h3>School Bloom v2</h3>
+      <p>school-v2.edubloom.com.ng</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">👤</div>
+      <h3>Bloom Agent v2</h3>
+      <p>agent-v2.edubloom.com.ng</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">🎛️</div>
+      <h3>Bloom Portal v2</h3>
+      <p>portal-v2.edubloom.com.ng</p>
+    </div>
+  </div>
+  <div class="contact-row">
+    <div class="contact-item"><div class="c-lbl">Company</div><div class="c-val">AariNAT Company Limited</div></div>
+    <div class="contact-item"><div class="c-lbl">Location</div><div class="c-val">Abeokuta, Ogun State, Nigeria</div></div>
+    <div class="contact-item"><div class="c-lbl">Product</div><div class="c-val">EduBloom Suite v2</div></div>
+    <div class="contact-item"><div class="c-lbl">AI</div><div class="c-val">Aari — African Education AI</div></div>
+  </div>
+</section>
+
+</body>
+</html>
