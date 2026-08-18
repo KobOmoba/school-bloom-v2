@@ -131,7 +131,19 @@
     .att-btn.P{background:#15803d22;color:#4ade80;border-color:#4ade80;}
     .att-btn.A{background:#dc262622;color:#f87171;border-color:#f87171;}
     .att-btn.L{background:#d9770622;color:#fbbf24;border-color:#fbbf24;}
-  </style>
+  
+/* Teaching tools responsive grid */
+#sec-lessons .sec-grid, #sec-questions .sec-grid,
+#sec-lessons > div > div:first-child + div,
+#sec-questions > div > div:first-child + div { }
+@media(max-width:640px){
+  #sec-lessons > div[style*="grid-template-columns"],
+  #sec-questions > div[style*="grid-template-columns"]{
+    grid-template-columns:1fr !important;
+  }
+  #ln-result, #qg-result { margin-top:.75rem; }
+}
+</style>
 </head>
 <body>
 
@@ -245,7 +257,222 @@
     </section>
 
     <!-- SETTINGS -->
-    <section id="sec-settings" class="sec">
+    
+
+<!-- ══════════════════════════════════════════════════
+     LESSON NOTE GENERATOR
+═══════════════════════════════════════════════════ -->
+<section id="sec-lessons" class="sec">
+<div class="sec-header"><h2>📖 Lesson Notes</h2></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
+
+<!-- LEFT: Setup Form -->
+<div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem;">
+  <div style="font-size:0.7rem;font-weight:800;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">⚙️ Lesson Details</div>
+
+  <div style="margin-bottom:.65rem;">
+    <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">School Level</label>
+    <select id="ln-level" id="ln-level-sel" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;" onchange="updateLessonSubjects()">
+      <option value="primary">Primary (Basic 1–6)</option>
+      <option value="jss">Junior Secondary (JSS 1–3)</option>
+      <option value="ss">Senior Secondary (SS 1–3)</option>
+    </select>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.65rem;">
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Class</label>
+      <select id="ln-class" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;"></select>
+    </div>
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Subject</label>
+      <select id="ln-subject" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;"></select>
+    </div>
+  </div>
+
+  <div style="margin-bottom:.65rem;">
+    <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Topic <span style="color:#ef4444;">*</span></label>
+    <input id="ln-topic" placeholder="e.g. Photosynthesis in Plants" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;">
+  </div>
+
+  <div style="margin-bottom:.65rem;">
+    <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Sub-Topic <span style="color:var(--sub);font-weight:400;">(optional)</span></label>
+    <input id="ln-subtopic" placeholder="e.g. The role of chlorophyll" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;">
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:1rem;">
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Duration</label>
+      <select id="ln-duration" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.8rem;">
+        <option value="30">30 min</option>
+        <option value="40" selected>40 min</option>
+        <option value="45">45 min</option>
+        <option value="60">60 min</option>
+        <option value="80">80 min</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Term</label>
+      <select id="ln-term" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.8rem;">
+        <option value="1st">1st Term</option>
+        <option value="2nd">2nd Term</option>
+        <option value="3rd">3rd Term</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Week</label>
+      <select id="ln-week" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.8rem;">
+        <option>1</option><option>2</option><option>3</option><option>4</option>
+        <option>5</option><option>6</option><option>7</option><option>8</option>
+        <option>9</option><option>10</option><option>11</option><option>12</option><option>13</option>
+      </select>
+    </div>
+  </div>
+
+  <button id="ln-btn" onclick="generateLessonNote()" style="width:100%;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.75rem;font-weight:700;font-size:.9rem;cursor:pointer;">📝 Generate Lesson Note</button>
+
+  <div style="margin-top:.75rem;font-size:.72rem;color:var(--sub);line-height:1.5;">
+    Aligned with the <strong style="color:var(--text);">Federal Government of Nigeria New Curriculum</strong>.<br>
+    Uses the NTI/NCCE 5-step lesson note format.
+  </div>
+</div>
+
+<!-- RIGHT: Output -->
+<div>
+  <div id="ln-result" style="display:none;">
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+      <button onclick="printLessonNote()" style="background:var(--s2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;">🖨️ Print</button>
+      <button onclick="copyLessonNote()" style="background:var(--s2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;">📋 Copy</button>
+    </div>
+    <div id="ln-output" style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.85;white-space:pre-wrap;max-height:75vh;overflow-y:auto;color:var(--text);"></div>
+  </div>
+  <div id="ln-placeholder" style="background:var(--s1);border:1px dashed var(--border);border-radius:12px;padding:2.5rem 1rem;text-align:center;color:var(--sub);">
+    <div style="font-size:2rem;margin-bottom:.5rem;">📖</div>
+    <div style="font-size:.85rem;font-weight:600;">Your lesson note will appear here</div>
+    <div style="font-size:.76rem;margin-top:.25rem;">Fill in the details and tap Generate</div>
+  </div>
+</div>
+
+</div><!-- end grid -->
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     QUESTION GENERATOR
+═══════════════════════════════════════════════════ -->
+<section id="sec-questions" class="sec">
+<div class="sec-header"><h2>❓ Question Generator</h2></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
+
+<!-- LEFT: Setup Form -->
+<div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem;">
+  <div style="font-size:.7rem;font-weight:800;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">⚙️ Question Details</div>
+
+  <div style="margin-bottom:.65rem;">
+    <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">School Level</label>
+    <select id="qg-level" id="qg-level-sel" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;" onchange="updateQSubjects()">
+      <option value="primary">Primary (Basic 1–6)</option>
+      <option value="jss">Junior Secondary (JSS 1–3)</option>
+      <option value="ss">Senior Secondary (SS 1–3)</option>
+    </select>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.65rem;">
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Class</label>
+      <select id="qg-class" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;"></select>
+    </div>
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Subject</label>
+      <select id="qg-subject" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;"></select>
+    </div>
+  </div>
+
+  <div style="margin-bottom:.65rem;">
+    <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Topic(s) <span style="color:#ef4444;">*</span></label>
+    <input id="qg-topics" placeholder="e.g. Fractions, Decimals and Percentages" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;">
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.65rem;">
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Exam Type</label>
+      <select id="qg-type" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;">
+        <option>1st CA Test</option>
+        <option>2nd CA Test</option>
+        <option>Mid-Term Test</option>
+        <option>End of Term Exam</option>
+        <option>Mock Exam</option>
+        <option>Assignment</option>
+        <option>Weekly Quiz</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:3px;">Total Marks</label>
+      <input id="qg-marks" type="number" value="100" min="10" max="200" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-size:.83rem;">
+    </div>
+  </div>
+
+  <div style="background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:.85rem;margin-bottom:1rem;">
+    <div style="font-size:.75rem;font-weight:700;margin-bottom:.6rem;">Number of Questions by Type</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <input id="qg-n-obj" type="number" value="20" min="0" max="60" style="width:52px;padding:5px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82rem;text-align:center;">
+        <label style="font-size:.78rem;">Objective (MCQ)</label>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <input id="qg-n-theory" type="number" value="5" min="0" max="20" style="width:52px;padding:5px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82rem;text-align:center;">
+        <label style="font-size:.78rem;">Theory / Essay</label>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <input id="qg-n-short" type="number" value="0" min="0" max="20" style="width:52px;padding:5px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82rem;text-align:center;">
+        <label style="font-size:.78rem;">Short Answer</label>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <input id="qg-n-fill" type="number" value="0" min="0" max="20" style="width:52px;padding:5px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.82rem;text-align:center;">
+        <label style="font-size:.78rem;">Fill in Blank</label>
+      </div>
+    </div>
+  </div>
+
+  <button id="qg-btn" onclick="generateQuestions()" style="width:100%;background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem;font-weight:700;font-size:.9rem;cursor:pointer;">❓ Generate Questions</button>
+
+  <div style="margin-top:.75rem;font-size:.72rem;color:var(--sub);line-height:1.5;">
+    Generates a <strong style="color:var(--text);">question paper + complete answer key / marking scheme</strong>.<br>
+    Print them separately — questions for students, key for teacher only.
+  </div>
+</div>
+
+<!-- RIGHT: Output -->
+<div>
+  <div id="qg-result" style="display:none;">
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+      <button onclick="printQuestions('questions')" style="background:var(--s2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;">🖨️ Print Questions</button>
+      <button onclick="printQuestions('answers')" style="background:var(--s2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;">🖨️ Print with Answer Key</button>
+      <button onclick="copyQuestions()" style="background:var(--s2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;">📋 Copy All</button>
+    </div>
+    <!-- Question paper -->
+    <div style="font-size:.7rem;font-weight:800;color:var(--sub);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;">📄 Question Paper</div>
+    <div id="qg-output" style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.85;white-space:pre-wrap;max-height:45vh;overflow-y:auto;color:var(--text);margin-bottom:.75rem;"></div>
+    <!-- Answer key -->
+    <div id="qg-ans-section" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.7rem;font-weight:800;color:#7c3aed;letter-spacing:.1em;text-transform:uppercase;">🔑 Answer Key / Marking Scheme</div>
+        <button id="qg-ans-toggle" onclick="toggleAnswerKey()" style="background:var(--s2);color:var(--sub);border:1px solid var(--border);border-radius:7px;padding:4px 10px;font-size:.75rem;cursor:pointer;">🙈 Hide Answer Key</button>
+      </div>
+      <div id="qg-answer-output" style="background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:1rem 1.2rem;font-size:.82rem;line-height:1.85;white-space:pre-wrap;max-height:45vh;overflow-y:auto;color:var(--text);"></div>
+    </div>
+  </div>
+  <div id="qg-placeholder" style="background:var(--s1);border:1px dashed var(--border);border-radius:12px;padding:2.5rem 1rem;text-align:center;color:var(--sub);">
+    <div style="font-size:2rem;margin-bottom:.5rem;">❓</div>
+    <div style="font-size:.85rem;font-weight:600;">Your questions and answer key will appear here</div>
+    <div style="font-size:.76rem;margin-top:.25rem;">Fill in the details and tap Generate</div>
+  </div>
+</div>
+
+</div><!-- end grid -->
+</section>
+<section id="sec-settings" class="sec">
       <div class="ct">⚙️ Settings</div>
       <div class="card">
         <label class="lbl">School Name</label>
@@ -271,6 +498,8 @@
     <button class="nlink" data-t="attendance"onclick="go('attendance')"><span class="ni">📋</span>Attendance</button>
     <button class="nlink" data-t="staff"     onclick="go('staff')"><span class="ni">👥</span>Staff</button>
     <button class="nlink" data-t="expenses"  onclick="go('expenses')"><span class="ni">📉</span>Expenses</button>
+    <button class="nlink" data-t="lessons"   onclick="go('lessons')"><span class="ni">📖</span>Lessons</button>
+    <button class="nlink" data-t="questions" onclick="go('questions')"><span class="ni">❓</span>Questions</button>
     <button class="nlink" data-t="settings"  onclick="go('settings')"><span class="ni">⚙️</span>Settings</button>
   </nav>
 </div>
