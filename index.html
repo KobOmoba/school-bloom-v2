@@ -501,7 +501,8 @@
     <button class="nlink" data-t="lessons"   onclick="go('lessons')"><span class="ni">📖</span>Lessons</button>
     <button class="nlink" data-t="questions" onclick="go('questions')"><span class="ni">❓</span>Questions</button>
     <button class="nlink" data-t="settings"  onclick="go('settings')"><span class="ni">⚙️</span>Settings</button>
-  </nav>
+  <button class="nlink" data-t="health" onclick="go('health')"><span class="ni">🏥</span>Health</button>
+</nav>
 </div>
 
 <!-- MODALS -->
@@ -610,6 +611,66 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script src="app.js?v=20260820-security"></script>
+<script src="app.js?v=20260820-health-compliance"></script>
+
+<!-- ── HEALTH RECORDS — Principal only, AES-256-GCM encrypted ────────── -->
+<section id="sec-health" class="sec">
+  <div class="card" style="margin-bottom:0.65rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.75rem;">
+      <div class="stat"><div class="sn" id="h-visits">0</div><div class="sl">Total Records</div></div>
+      <div class="stat"><div class="sn" id="h-open" style="color:#ef4444;">0</div><div class="sl">Open</div></div>
+    </div>
+    <div style="background:#1e3a2f;border:1px solid #166534;border-radius:8px;padding:0.55rem 0.7rem;font-size:0.73rem;color:#86efac;margin-bottom:0.65rem;">
+      🔒 Health records are encrypted with AES-256-GCM.<br>
+      All access is audit-logged. Principal access only.
+    </div>
+    <button class="btn-brand" onclick="openLogIncidentModal()" style="width:100%;">🏥 Log Health Incident</button>
+  </div>
+
+  <!-- Vault unlock prompt — shown when key not loaded -->
+  <div id="health-vault-prompt" class="card" style="display:none;">
+    <div class="ct">🔐 Health Vault Locked</div>
+    <p style="font-size:0.8rem;color:var(--sub);margin-bottom:0.65rem;">
+      Health records are encrypted. Re-enter your school password to unlock for this session.
+      Your key never leaves this device.
+    </p>
+    <label style="font-size:0.8rem;font-weight:600;">School Password</label>
+    <div style="display:flex;gap:0.5rem;">
+      <input type="password" id="vault-pwd" placeholder="Enter school password" style="flex:1;">
+      <button class="btn-brand" onclick="unlockHealthVault()" style="white-space:nowrap;">🔓 Unlock</button>
+    </div>
+    <div id="vault-err" style="color:#ef4444;font-size:0.78rem;margin-top:0.4rem;display:none;"></div>
+  </div>
+
+  <div id="health-list"></div>
+</section>
+
+<!-- Log Incident Modal -->
+<div id="log-incident-modal" class="modal">
+  <div class="mbox">
+    <button class="mclose" onclick="closeM('log-incident-modal')">✕</button>
+    <div class="ct">🏥 Log Health Incident</div>
+    <label>Student</label>
+    <select id="inc-stu"></select>
+    <label>Incident Type</label>
+    <input type="text" id="inc-type" placeholder="e.g. Injury, Illness, Allergy Reaction">
+    <label>Action Taken</label>
+    <select id="inc-action">
+      <option>First Aid Administered</option>
+      <option>Sent Home</option>
+      <option>Parent Contacted</option>
+      <option>Hospital Referral</option>
+      <option>Observation Only</option>
+    </select>
+    <label>Notes</label>
+    <textarea id="inc-notes" rows="3" placeholder="Medical details — AES-256 encrypted before saving"></textarea>
+    <div style="background:#1e3a2f;border:1px solid #166534;border-radius:6px;padding:0.4rem 0.6rem;
+      font-size:0.7rem;color:#86efac;margin-bottom:0.5rem;">
+      🔒 studentName, type, action, and notes are encrypted individually before leaving your device.
+      Only someone with your school password can decrypt them.
+    </div>
+    <button class="btn-brand" style="width:100%;" onclick="logIncident()">🔒 Encrypt &amp; Save</button>
+  </div>
+</div>
 </body>
 </html>
