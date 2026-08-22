@@ -1,4 +1,4 @@
-const CACHE = 'edubloom-school-bloom-v2-20260820-security';
+const CACHE = 'edubloom-school-bloom-v2-20260820-health-compliance';
 const ASSETS = ['./index.html', './app.js', './manifest.json'];
 
 self.addEventListener('install', e => {
